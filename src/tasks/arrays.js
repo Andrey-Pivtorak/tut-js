@@ -5,7 +5,7 @@ const arraysTask = {
    * нужно посчитать и вернуть сумму всех чисел
    */
     totalSum: function (array) {
-
+		console.log('Hello Vova!');
     },
 
     /**

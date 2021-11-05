@@ -71,8 +71,13 @@ const basicsTask = {
 	//ф-ция должна уметь округлить число n до l знаков после запятой, 1 <= l <= 10
 	//roundNumber(0.66666666, 2) => 0.67
 	//roundNumber(1, 1) => 1.0
-	roundNumber(n, l) {
-		return n.toFixed(l);
+	roundNumber(n, l) { // *** ПЕРЕРОБЛЮВАВ ***
+		// return n.toFixed(l);
+		let m = Math.pow(10, l);
+
+		return Math.round(n * m) / m;
+
+
 	},
 
 	//на входе массив чисел

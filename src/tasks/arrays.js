@@ -20,13 +20,21 @@ const arraysTask = {
 	 * сначала будут идти первые элементы, потом вторые и тд, если в одном из массивов элементов больше не осталось то просто заполнять элементами из другого массива
 	 * пример: combine([1, 2, 3], ['a', 'b', 'c', 'd']) => [1, 'a', 2, 'b', 3, 'c', 'd']
 	 */
-	combine: function (array1, array2) {
+	combine: function (array1, array2) { // *** ПЕРЕРОБЛЮВАВ ***
 		let result = [];
 		const maxLength = Math.max(array1.length, array2.length);
 
 		for (let i = 0; i < maxLength; i++) {
-			if (array1[i]) result.push(array1[i]);
-			if (array2[i]) result.push(array2[i]);
+			// if (array1[i]) result.push(array1[i]);
+			// if (array2[i]) result.push(array2[i]);
+
+			if (i < array1.length) {
+				result.push(array1[i]);
+			}
+
+			if (i < array2.length) {
+				result.push(array2[i]);
+			}
 		}
 
 		return result;
@@ -56,8 +64,17 @@ const arraysTask = {
 
 	//ф-ция должна вернуть последние n элементов массива
 	//если n > array.length то вернуть копию массива
-	lastN(array, n) {
-		if (n > array.length) return array;
+
+	lastN(array, n) { // *** ПЕРЕРОБЛЮВАВ ***
+		// if (n > array.length) return array;
+		// return array.slice(array.length - n, array.length);
+
+		if (n > array.length) {
+			return [...array];
+			// return array.slice();
+			// return JSON.parse(JSON.stringify(array))
+			// рекурсія
+		}
 
 		return array.slice(array.length - n, array.length);
 	},
@@ -115,10 +132,20 @@ const arraysTask = {
 	//ф-ция должна вернуть true если в обеих массивах одинаковые элементы, иначе false
 	//areArraysEqual([1, 2, 3], [2, 3, 1]) => true
 	//areArraysEqual([1, 2, 2], [1, 2]) => false
-	areArraysEqual(arr1, arr2) {
-		if (arr1.length === arr2.length
-			&& arr2.every(item => arr1.includes(item)))
+	areArraysEqual(arr1, arr2) { // *** ПЕРЕРОБЛЮВАВ ***
+
+		// if (arr1.length === arr2.length
+		// 	&& arr2.every(item => arr1.includes(item)))
+		// 	return true;
+
+		// return false;
+
+		arr1.sort();
+		arr2.sort();
+
+		if (arr1.length === arr2.length && arr1.every((item, i) => item === arr2[i])) {
 			return true;
+		}
 
 		return false;
 	},
@@ -129,17 +156,34 @@ const arraysTask = {
 	 * параметр strict надо помнимать так: если true то сравнивать числа через ><, иначе сравнивать через >=, <=
 	 * ф-ция должна вернуть новый массив в котором все элементы будут находиться между min и max
 	 */
-	selectIntervalFromArray(array, min, max, strict = true) {
-		if (strict && min > max) {
-			let temp = min;
-			min = max;
-			max = temp;
+	selectIntervalFromArray(array, min, max, strict = true) { // *** ПЕРЕРОБЛЮВАВ ***
+		// if (strict && min > max) {
+		// 	let temp = min;
+		// 	min = max;
+		// 	max = temp;
+		// }
+
+		// if (!strict && min >= max) {
+		// 	return [array[min]];
+		// }
+
+		// return array.slice(min, max);
+
+		if (min > max) {
+			[min, max] = [max, min];
 		}
 
-		if (!strict && min >= max) {
-			return [array[min]];
-		}
+		let result = [];
+		array.forEach(element => {
+			if (strict && element > min && element < max) {
+				result.push(element);
+			}
 
-		return array.slice(min, max);
+			if (!strict && element >= min && element <= max) {
+				result.push(element);
+			}
+		});
+
+		return result;
 	}
 };

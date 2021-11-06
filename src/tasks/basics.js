@@ -15,7 +15,6 @@ const basicsTask = {
 	 * нужно вернуть сумму только чисел
 	 * 
 	 */
-
 	// safeSum(a, b, c) - я зробив через остаточні параметри
 	safeSum(...args) {
 		let sum = 0;
@@ -34,11 +33,8 @@ const basicsTask = {
 	max(a, b, c) {
 		let m = a;
 		//ваш код тут
-
-		// m = Math.max(a, b, c);
-		// або
 		if (b > a) m = b;
-		if (c > a && c > b) m = c;
+		if (c > m) m = c;
 
 		return m;
 	},
@@ -52,32 +48,43 @@ const basicsTask = {
 	min(a, b, c) {
 		let m = a;
 		//ваш код тут
-
-		// m = Math.min(a, b, c);
-		// або
 		if (b < a) m = b;
-		if (c < a && c < b) m = c;
+		if (c < m) m = c;
 
 		return m;
 	},
 
 	//если n целое число то вернуть true, иначе false
 	isIntegerNumber(n) {
-		// return n % 1 === 0;
-		// або
-		return Number.isInteger(n);
+		return n % 1 === 0;
 	},
 
 	//ф-ция должна уметь округлить число n до l знаков после запятой, 1 <= l <= 10
 	//roundNumber(0.66666666, 2) => 0.67
 	//roundNumber(1, 1) => 1.0
-	roundNumber(n, l) { // *** ПЕРЕРОБЛЮВАВ ***
-		// return n.toFixed(l);
-		let m = Math.pow(10, l);
+	roundNumber(n, l) {
+		
+		const array = n.toString().split('.');
 
-		return Math.round(n * m) / m;
+		if (array.length === 1) {
+			return [n, '0'].join('.');
+		}
 
+		const remainder = array[1];
+		const remainderArray = [];
 
+		for (let i = 0; i < remainder.length; i++) {
+			remainderArray.push(+remainder[i]);
+		}
+
+		if (remainderArray[l] >= 5) {
+			remainderArray[l - 1]++;
+		}
+
+		const cutElements = remainderArray.slice(0, l);
+		array[1] = cutElements.join('');
+
+		return Number(array.join('.'));
 	},
 
 	//на входе массив чисел
@@ -87,8 +94,7 @@ const basicsTask = {
 	percentage(numbers) {
 		const sum = numbers.reduce((sum, item) => sum + item, 0);
 		if (sum !== 0) {
-			const percent = numbers.map(element => element = Math.round((element / sum) * 100) / 100);
-			return percent;
+			return numbers.map(element => Math.round((element / sum) * 100) / 100);
 		}
 
 		return 'The array has only zero elements. Try again!';

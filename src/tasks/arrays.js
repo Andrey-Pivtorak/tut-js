@@ -5,10 +5,10 @@ const arraysTask = {
    * нужно посчитать и вернуть сумму всех чисел
    */
 	totalSum: function (array) {
-		if (array.length > 0 && array.some(item => typeof item === 'number')) {
-			let result = array.filter(item => typeof item === 'number').reduce((sum, item) => sum + item);
-
-			return result;
+		if (array.length > 0) {
+			return array
+				.filter(item => typeof item === 'number')
+				.reduce((sum, item) => sum + item, 0);
 		}
 
 		return 0;
@@ -20,13 +20,11 @@ const arraysTask = {
 	 * сначала будут идти первые элементы, потом вторые и тд, если в одном из массивов элементов больше не осталось то просто заполнять элементами из другого массива
 	 * пример: combine([1, 2, 3], ['a', 'b', 'c', 'd']) => [1, 'a', 2, 'b', 3, 'c', 'd']
 	 */
-	combine: function (array1, array2) { // *** ПЕРЕРОБЛЮВАВ ***
-		let result = [];
+	combine: function (array1, array2) {
 		const maxLength = Math.max(array1.length, array2.length);
 
+		const result = [];
 		for (let i = 0; i < maxLength; i++) {
-			// if (array1[i]) result.push(array1[i]);
-			// if (array2[i]) result.push(array2[i]);
 
 			if (i < array1.length) {
 				result.push(array1[i]);
@@ -43,19 +41,16 @@ const arraysTask = {
 	//вернуть массив, состоящий из идущих подряд чисел, начиная со start, и до end включительно
 	//range(0, 3) => [0, 1, 2, 3]
 	range(start, end) {
-		let result = [];
-
 		if (start > end) {
-			let temp = start;
-			start = end;
-			end = temp;
+			[start, end] = [end, start];
 		}
 
-		if (typeof start !== 'number'
-			|| typeof end !== 'number')
+		if (typeof start !== 'number' || typeof end !== 'number') {
 			return 'Error. Input a correct values!';
+		}
 
-		for (let i = start; i < end + 1; i++) {
+		const result = [];
+		for (let i = start; i <= end; i++) {
 			result.push(i);
 		}
 
@@ -65,26 +60,23 @@ const arraysTask = {
 	//ф-ция должна вернуть последние n элементов массива
 	//если n > array.length то вернуть копию массива
 
-	lastN(array, n) { // *** ПЕРЕРОБЛЮВАВ ***
-		// if (n > array.length) return array;
-		// return array.slice(array.length - n, array.length);
-
+	lastN(array, n) {
 		if (n > array.length) {
 			return [...array];
 			// return array.slice();
-			// return JSON.parse(JSON.stringify(array))
-			// рекурсія
 		}
 
-		return array.slice(array.length - n, array.length);
+		return array.slice(array.length - n);
 	},
 
 	//ф-ция должна вернуть новый массив, в котором будут все элементы исоходного массива, но без дубликатов
 	//unique([1, 2, 3, 3]) => [1, 2, 3]
 	unique(array) {
-		let result = [];
+		const result = [];
 		array.forEach(element => {
-			if (!result.includes(element)) result.push(element);
+			if (!result.includes(element)) {
+				result.push(element);
+			}
 		});
 
 		return result;
@@ -95,7 +87,7 @@ const arraysTask = {
 	 * chunk([1, 2, 3, 4, 5], 3) => [[1, 2, 3], [4, 5]]
 	 */
 	chunk: function (arr, chunkSize) {
-		let result = [];
+		const result = [];
 		for (let i = 0; i < arr.length; i += chunkSize) {
 			result.push(arr.slice(i, i + chunkSize));
 		}
@@ -106,7 +98,7 @@ const arraysTask = {
 	//вернуть новый массив из элементов, для которых ф-ция cb вернёт true
 	//аналог родного array.filter
 	filter(array, cb) {
-		let result = [];
+		const result = [];
 		for (let i = 0; i < array.length; i++) {
 			if (cb(array[i])) result.push(array[i]);
 		}
@@ -115,39 +107,38 @@ const arraysTask = {
 	},
 	// функція, що передається на вхід у функцію filter
 	// function isEven(number) {
-	// 	if (number % 2 === 0) return true;
+	// 	if (number % 2 === 0) {
+	// 		return true;
+	// 	}
 	// }
 
 	//эта ф-ция должна работать как array.forEach, но если cb возвращает false то обход цикла должен прикратиться
 	breakableForEach(array, cb) {
 		for (let i = 0; i < array.length; i++) {
-			if (!cb(array[i])) break;
+			if (!cb(array[i])) {
+				break;
+			};
 		}
 	},
 	// функція, що передається на вхід у функцію breakableForEach
 	// function isEven(element) {
-	// 	if (typeof element === 'string') return true;
+	// 	if (typeof element === 'string') {
+	// 		return true;
+	// 	}
 	// }
 
 	//ф-ция должна вернуть true если в обеих массивах одинаковые элементы, иначе false
 	//areArraysEqual([1, 2, 3], [2, 3, 1]) => true
 	//areArraysEqual([1, 2, 2], [1, 2]) => false
-	areArraysEqual(arr1, arr2) { // *** ПЕРЕРОБЛЮВАВ ***
-
-		// if (arr1.length === arr2.length
-		// 	&& arr2.every(item => arr1.includes(item)))
-		// 	return true;
-
-		// return false;
+	areArraysEqual(arr1, arr2) {
+		if (arr1.length !== arr2.length) {
+			return false;
+		}
 
 		arr1.sort();
 		arr2.sort();
 
-		if (arr1.length === arr2.length && arr1.every((item, i) => item === arr2[i])) {
-			return true;
-		}
-
-		return false;
+		return arr1.every((item, i) => item === arr2[i]);
 	},
 
 	/**
@@ -156,34 +147,16 @@ const arraysTask = {
 	 * параметр strict надо помнимать так: если true то сравнивать числа через ><, иначе сравнивать через >=, <=
 	 * ф-ция должна вернуть новый массив в котором все элементы будут находиться между min и max
 	 */
-	selectIntervalFromArray(array, min, max, strict = true) { // *** ПЕРЕРОБЛЮВАВ ***
-		// if (strict && min > max) {
-		// 	let temp = min;
-		// 	min = max;
-		// 	max = temp;
-		// }
-
-		// if (!strict && min >= max) {
-		// 	return [array[min]];
-		// }
-
-		// return array.slice(min, max);
+	selectIntervalFromArray(array, min, max, strict = true) {
 
 		if (min > max) {
 			[min, max] = [max, min];
 		}
 
-		let result = [];
-		array.forEach(element => {
-			if (strict && element > min && element < max) {
-				result.push(element);
-			}
+		const result = strict
+			? elem => elem > min && elem < max
+			: elem => elem >= min && elem <= max;
 
-			if (!strict && element >= min && element <= max) {
-				result.push(element);
-			}
-		});
-
-		return result;
+		return array.filter(result);
 	}
 };

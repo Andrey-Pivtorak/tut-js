@@ -20,7 +20,9 @@ const basicsTask = {
 		let sum = 0;
 		//ваш код тут;
 		for (let arg of args) {
-			if (typeof arg === 'number') sum += arg;
+			if (typeof arg === 'number') {
+				sum += arg;
+			}
 		}
 
 		return sum;
@@ -33,8 +35,12 @@ const basicsTask = {
 	max(a, b, c) {
 		let m = a;
 		//ваш код тут
-		if (b > a) m = b;
-		if (c > m) m = c;
+		if (b > m) {
+			m = b;
+		}
+		if (c > m) {
+			m = c;
+		}
 
 		return m;
 	},
@@ -48,8 +54,12 @@ const basicsTask = {
 	min(a, b, c) {
 		let m = a;
 		//ваш код тут
-		if (b < a) m = b;
-		if (c < m) m = c;
+		if (b < m) {
+			m = b;
+		}
+		if (c < m) {
+			m = c;
+		}
 
 		return m;
 	},
@@ -63,28 +73,23 @@ const basicsTask = {
 	//roundNumber(0.66666666, 2) => 0.67
 	//roundNumber(1, 1) => 1.0
 	roundNumber(n, l) {
-		
-		const array = n.toString().split('.');
 
-		if (array.length === 1) {
-			return [n, '0'].join('.');
+		const [intPart, floatPart] = n.toString().split('.');
+
+		if (floatPart === undefined) {
+			return `${n}.0`;
 		}
 
-		const remainder = array[1];
-		const remainderArray = [];
-
-		for (let i = 0; i < remainder.length; i++) {
-			remainderArray.push(+remainder[i]);
-		}
+		const remainderArray = floatPart.split('').map(n => +n);
+		console.log(remainderArray);
 
 		if (remainderArray[l] >= 5) {
 			remainderArray[l - 1]++;
 		}
 
 		const cutElements = remainderArray.slice(0, l);
-		array[1] = cutElements.join('');
 
-		return Number(array.join('.'));
+		return Number(`${intPart}.${cutElements.join('')}`);
 	},
 
 	//на входе массив чисел

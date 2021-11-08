@@ -50,21 +50,20 @@ const loopsTasks = {
 	 */
 	guessNumber(n, maxAttempts) {
 		const randomNumber = Math.ceil(Math.random() * n);
+		let countAttempts = maxAttempts;
 
-		let userNumber;
 		do {
-			userNumder = Number(prompt(`Введи число. Є спроб: ${maxAttempts}`));
+			let userNumber = Number(prompt(`Введи число. Є спроб: ${countAttempts}`));
 			if (isNaN(userNumber)) {
-				alert('Вводити треба тільки число! Спробуй ще...');
-				userNumder = Number(prompt(`Введи число. Є спроб: ${maxAttempts}`));
+				continue;
 			}
-			if (userNumder === randomNumber) {
+			if (userNumber === randomNumber) {
 				alert('Ти вгадав число!');
 				break;
 			} else {
 				alert('Ти не вгадав число, спробуй ще...');
 			}
-			maxAttempts--;
-		} while (maxAttempts);
+			countAttempts--;
+		} while (countAttempts);
 	},
 };

@@ -5,13 +5,9 @@ const arraysTask = {
    * нужно посчитать и вернуть сумму всех чисел
    */
 	totalSum: function (array) {
-		if (array.length > 0) {
-			return array
-				.filter(item => typeof item === 'number')
-				.reduce((sum, item) => sum + item, 0);
-		}
-
-		return 0;
+		return array
+			.filter(item => typeof item === 'number')
+			.reduce((sum, item) => sum + item, 0);
 	},
 
 	/**
@@ -100,7 +96,9 @@ const arraysTask = {
 	filter(array, cb) {
 		const result = [];
 		for (let i = 0; i < array.length; i++) {
-			if (cb(array[i])) result.push(array[i]);
+			if (cb(array[i])) {
+				result.push(array[i]);
+			}
 		}
 
 		return result;
@@ -117,7 +115,7 @@ const arraysTask = {
 		for (let i = 0; i < array.length; i++) {
 			if (!cb(array[i])) {
 				break;
-			};
+			}
 		}
 	},
 	// функція, що передається на вхід у функцію breakableForEach

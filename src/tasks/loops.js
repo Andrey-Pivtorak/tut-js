@@ -1,6 +1,6 @@
 const loopsTasks = {
 	/**
-	 * 
+	 *
 	 * @param {} n - целое число
 	 * нужно посчитать и вернуть сумму всех чисел начиная с 1 и до n
 	 */
@@ -57,12 +57,14 @@ const loopsTasks = {
 			if (isNaN(userNumber)) {
 				continue;
 			}
+
 			if (userNumber === randomNumber) {
 				alert('Ти вгадав число!');
 				break;
-			} else {
-				alert('Ти не вгадав число, спробуй ще...');
 			}
+
+			alert('Ти не вгадав число, спробуй ще...');
+
 			countAttempts--;
 		} while (countAttempts);
 	},

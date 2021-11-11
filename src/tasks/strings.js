@@ -3,13 +3,11 @@ const stringTasks = {
 	 * вернуть строку, где все слова из исходной строки будут начинаться с заглавных букв
 	 */
 	capitalizeWords(srcStr) {
-		const array = srcStr
-			.replace(/ +/g, ' ').trim()
-			.split(' ').map(item => item.split(''));
-
-		array.map(item => item[0] = item[0].toUpperCase());
-
-		return array.map(item => item.join('')).join(' ');
+		return srcStr
+			.trim()
+			.split(/ +/g, ' ').map(item => {
+				return item[0].toLowerCase() + item[0].slice(1);
+			}).join(' ');
 	},
 
 	/**
@@ -19,16 +17,14 @@ const stringTasks = {
 	 * 'just a string' => 'justAString'
 	 */
 	toCamelCase(srcStr) {
-		const array = srcStr
-			.replace(/ +/g, ' ').trim()
-			.split(' ').map(item => item.split(''));
-
-		const [firstWord, ...rest] = array;
-		rest.map(item => item[0] = item[0].toUpperCase());
-
-		const completedRest = rest.map(item => item.join('')).join('');
-
-		return `${firstWord.join('')}${completedRest}`;
+		return srcStr
+			.trim()
+			.split(/ +/g, ' ').map((item, i) => {
+				if (i === 0) {
+					return item;
+				}
+				return item[0].toLowerCase() + item[0].slice(1);
+			}).join('');
 	},
 
 	/**
@@ -37,33 +33,31 @@ const stringTasks = {
 	 * 'camelCaseString' => 'camel_case_string'
 	 */
 	camelToSnake(srcStr) {
-		const array = srcStr
+		const arrayStr = srcStr
 			.trim()
 			.split('');
 
-		for (let i = 0; i < array.length; i++) {
-			if (array[i] === array[i].toUpperCase()) {
-				array[i] = '_' + array[i].toLowerCase();
+		for (let i = 0; i < arrayStr.length; i++) {
+			if (arrayStr[i] === arrayStr[i].toUpperCase()) {
+				arrayStr[i] = '_' + arrayStr[i].toLowerCase();
 			}
 		}
 
-		return array.join('');
+		return arrayStr.join('');
 	},
 
 	/**
-	   * 
+	   *
 	   * вернуть строку, в которой все слова будут начинаться с большой буквы
 	   * считать что на вход подается строка, в которой все слова разделены одним пробелом
 	   * capitalize('this string will be capitalized') => 'This String Will Be Capitalized'
 	   */
 	capitalizeWords: function (str) {
-		const array = str
+		return srcStr
 			.trim()
-			.split(' ').map(item => item.split(''));
-
-		array.map(item => item[0] = item[0].toUpperCase());
-
-		return array.map(item => item.join('')).join(' ');
+			.split(/ +/g, ' ').map(item => {
+				return item[0].toLowerCase() + item[0].slice(1);
+			}).join(' ');
 	},
 
 	/*на входе строка @srcString, в которой слова разделены пробелами, и ch - символ, из которого будем "рисовать" рамку
@@ -81,16 +75,20 @@ const stringTasks = {
 	  * *********
 	   */
 	printInFrame: function (srcString, ch) {
-		const array = srcString
+		const words = srcString
 			.replace(/ +/g, ' ').trim()
-			.split(' ').map(item => item.split(' '));
-		const maxLengthOfElements = Math.max(...array.map(item => item[0].length));
+			.split(' ');
 
-		const border = `${ch.repeat(maxLengthOfElements + 4)}`;
+		const maxLengthOfWord = Math.max(...words.map(w => w.length));
 
-		const mainText = array.map(item => `${ch}` + ' ' + (item + ' '.repeat(maxLengthOfElements - item[0].length)) + ' ' + `${ch}`).join('\n');
+		const border = ch.repeat(maxLengthOfWord + 4);
 
-		return border + '\n' + mainText + '\n' + border;
+		const mainText = words.map(word => {
+			const emptySpase = ' '.repeat(maxLengthOfWord - word.length);
+			return `${ch} ${word}${emptySpase} ${ch}`;
+		});
+
+		return [border, ...mainText, border].join('\n');
 	},
 
 	/**
@@ -98,16 +96,13 @@ const stringTasks = {
 	 * reverseString('abc') => 'cba';
 	 */
 	reverseString(str) {
-		const newStr = str
-			.replace(/ +/g, ' ')
-			.trim();
 
-		let result = '';
-		for (let i = newStr.length - 1; i >= 0; i--) {
-			result += newStr[i];
+		let result = [];
+		for (let i = str.length - 1; i >= 0; i--) {
+			result.push(str[i]);
 		}
 
-		return result;
+		return result.join('');
 	},
 
 	/**
@@ -132,22 +127,22 @@ const stringTasks = {
 			newStr += str[i];
 		}
 
-		return Number(n < 0 ? newStr = '-' + newStr : newStr);
+		return Number(n < 0 ? '-' + newStr : newStr);
 	},
+
 	/**
 	 * нужно посчитать кол-во каждого символа в строке
 	 * считать 'a' и 'A' разными символами
 	 * вывести результат в любом удобном виде
 	 */
 	charCount: function (str) {
-		const array = str.split('');
 		const collection = {};
 
-		for (let i = 0; i < array.length; i++) {
-			if (collection[array[i]] === undefined) {
-				collection[array[i]] = 1;
+		for (let i = 0; i < str.length; i++) {
+			if (collection[str[i]] === undefined) {
+				collection[str[i]] = 1;
 			} else {
-				collection[array[i]]++;
+				collection[str[i]]++;
 			}
 		}
 
@@ -155,7 +150,7 @@ const stringTasks = {
 	},
 
 	/**
-	 * 
+	 *
 	 * проверить являются ли строки анаграмами и вернуть true если да, иначе - вернуть false
 	 * пробелы игнорировать
 	 * примеры
@@ -171,7 +166,7 @@ const stringTasks = {
 		const result1 = transform(str1);
 		const result2 = transform(str2);
 
-		return (result1 === result2) ? true : false;
+		return result1 === result2;
 
 	// 	function transformStr(str) {
 	// 		let correctedStr = '';
@@ -193,7 +188,7 @@ const stringTasks = {
 	},
 
 	/**
-	 * 
+	 *
 	 * проверить, является ли строка палиндромом
 	 * палиндром - это такая строка, которая одинаково читается в обе стороны
 	 * примеры:
@@ -202,16 +197,39 @@ const stringTasks = {
 	 * isPalindrome('aabbaa') => true;
 	 */
 	isPalindrome: function (str) {
-		const outStr = str.trim();
-		const middleStr = Math.floor(outStr.length / 2);
-
-		for (let i = 0; i < middleStr; i++) {
-			if (outStr[i] === outStr[outStr.length - 1 - i]) {
-				return true;
+		for (let i = 0, j = str.length; i < j; i++, j--) {
+			if (str[i] !== str[j]) {
+				return false;
 			}
 		}
 
-		return false;
+		return true;
+
+
+		// let i = 0;
+		// let j = str.length - 1;
+
+		// while (i < j) {
+		// 	if (str[i] !== str[j]) {
+		// 		return false;
+		// 	}
+
+		// 	i++;
+		// 	j--;
+		// }
+
+		// return true;
+
+		// const outStr = str.trim();
+		// const middleStr = Math.floor(outStr.length / 2);
+
+		// for (let i = 0; i < middleStr; i++) {
+		// 	if (outStr[i] === outStr[outStr.length - 1 - i]) {
+		// 		return true;
+		// 	}
+		// }
+
+		// return false;
 
 		// const outStr = str.trim();
 

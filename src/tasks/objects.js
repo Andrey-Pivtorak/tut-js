@@ -3,19 +3,18 @@ const objectsTask = {
     //вернуть новый объект, что-бы в нём ключи и значения были поменяны местами
     //swapKeysWithValues({a: 'aa', b: 'bb'}) => { aa: 'a', bb: 'b' };
     swapKeysWithValues(obj) {
-		return Object.fromEntries(Object
-		.entries(obj)
-		.map(([key, value]) => [value, key]));
+		return Object.fromEntries(
+			Object .entries(obj)
+				.map(([key, value]) => [value, key]));
 
-	// const arrayObj = [];
-	// for (const key in obj) {
-	// 	arrayObj.push([key, obj[key]]);
-	// }
+		// const newObj = {};
 
-	// const result = arrayObj.map(item => [item[0], item[1]] = [item[1], item[0]]);
-	// const finalObj = Object.fromEntries(result);
+		// for (const key in obj) {
+		// 	const value = obj[key];
+		// 	newObj[value] = key;
+		// }
 
-	// return finalObj;
+		// return newObj;
     },
 
     /**
@@ -24,14 +23,15 @@ const objectsTask = {
      * вся логика должна быть написана самостоятельно, так же нужно учесть что некоторые свойства копируемого объекта могут быть массивами
      */
 	deepCopy(obj) {
-		let objCopy = {};
+		const objCopy = {};
 
-		for( let value in obj ) {
-			if (typeof obj[value] === 'object') {
-				objCopy[value] = deepCopy(obj[value]);
-			} else {
-				objCopy[value] = obj[value];
+		for (let key in obj) {
+			if (Array.isArray(obj[key])) {
+					objCopy[key] = obj[key];
+			} else if (typeof obj[key] === 'object') {
+					objCopy[key] = deepCopy(obj[key]);
 			}
+			objCopy[key] = obj[key];
 		}
 
 		return objCopy;

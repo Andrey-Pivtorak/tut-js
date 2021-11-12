@@ -5,7 +5,7 @@ const stringTasks = {
 	capitalizeWords(srcStr) {
 		return srcStr
 			.trim()
-			.split(/ +/g, ' ').map(item => {
+			.split(/\s/g).map(item => {
 				return item[0].toLowerCase() + item[0].slice(1);
 			}).join(' ');
 	},
@@ -19,7 +19,7 @@ const stringTasks = {
 	toCamelCase(srcStr) {
 		return srcStr
 			.trim()
-			.split(/ +/g, ' ').map((item, i) => {
+			.split(/\s/g).map((item, i) => {
 				if (i === 0) {
 					return item;
 				}
@@ -53,9 +53,9 @@ const stringTasks = {
 	   * capitalize('this string will be capitalized') => 'This String Will Be Capitalized'
 	   */
 	capitalizeWords: function (str) {
-		return srcStr
+		return str
 			.trim()
-			.split(/ +/g, ' ').map(item => {
+			.split(/\s/g).map(item => {
 				return item[0].toLowerCase() + item[0].slice(1);
 			}).join(' ');
 	},
@@ -84,8 +84,8 @@ const stringTasks = {
 		const border = ch.repeat(maxLengthOfWord + 4);
 
 		const mainText = words.map(word => {
-			const emptySpase = ' '.repeat(maxLengthOfWord - word.length);
-			return `${ch} ${word}${emptySpase} ${ch}`;
+			const emptySpace = ' '.repeat(maxLengthOfWord - word.length);
+			return `${ch} ${word}${emptySpace} ${ch}`;
 		});
 
 		return [border, ...mainText, border].join('\n');
@@ -97,7 +97,7 @@ const stringTasks = {
 	 */
 	reverseString(str) {
 
-		let result = [];
+		const result = [];
 		for (let i = str.length - 1; i >= 0; i--) {
 			result.push(str[i]);
 		}
@@ -127,7 +127,8 @@ const stringTasks = {
 			newStr += str[i];
 		}
 
-		return Number(n < 0 ? '-' + newStr : newStr);
+		// return Number(n < 0 ? '-' + newStr : newStr);
+		return (n < 0 ? -1 : 1) * Number(newStr);
 	},
 
 	/**

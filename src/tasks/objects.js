@@ -23,37 +23,71 @@ const objectsTask = {
      * вся логика должна быть написана самостоятельно, так же нужно учесть что некоторые свойства копируемого объекта могут быть массивами
      */
 	deepCopy(obj) {
-		const objCopy = {};
+		const newCopy = {};
 
 		for (let key in obj) {
-			if (Array.isArray(obj[key])) {
-					objCopy[key] = obj[key];
+			if (typeof obj[key] !== 'object' && !Array.isArray(obj[key])) {
+				newCopy[key] = obj[key];
+			} else if (obj[key] === null) {
+				newCopy[key] = null;
+			} else if (Array.isArray(obj[key])) {
+				const copyArray = [];
+				newCopy[key] = copyArray;
+
+				for (let i = 0; i < obj[key].length; i++) {
+					const value = obj[key];
+
+					if (typeof value[i] === 'object' && value[i] !== null) {
+						copyArray.push(deepCopy(value[i]));
+					} else {
+						copyArray.push(value[i]);
+					}
+				}
 			} else if (typeof obj[key] === 'object') {
-					objCopy[key] = deepCopy(obj[key]);
+				newCopy[key] = deepCopy(obj[key])
 			}
-			objCopy[key] = obj[key];
 		}
 
-		return objCopy;
+		return newCopy;
 	}
 
 	// const objIn = {
-		// 	str: 'asd',
-		// 	bool: true,
-		// 	num: 123,
-		// 	arr: [
-		// 		'programer', {
-		// 			arr3: [1, 2, null]
-		// 		}
-		// 	],
-		// 	obj1: {
-		// 		str: 'jhg',
-		// 		nullProp: null,
-		// 		bool: false,
-		// 		arr1: [1, 2, { stage: '1'}]
-		// 	}
-		// }
+	// 		str: 'asd',
+	// 		bool: true,
+	// 		num: 123,
+	// 		arr: [
+	// 			'programer', {
+	// 				arr3: [1, 2, null]
+	// 			}
+	// 		],
+	// 		obj1: {
+	// 			str: 'jhg',
+	// 			nullProp: null,
+	// 			bool: false,
+	// 			arr1: [1, 2, { stage: '1'}]
+	// 		}
+	// 	}
 
 	// console.log(deepCopy(objIn));
+	// const objOut = deepCopy(objIn);
+
+	// console.log(JSON.stringify(objIn) === JSON.stringify(objOut));
+
+	// function ensureRefsDistinct(obj, b) {
+	// 	for (const key in obj) {
+	// 		if (obj[key] === null) {
+	// 			continue;
+	// 		}
+
+	// 		if (typeof obj[key] === 'object' && obj[key] !== null) {
+	// 			if (obj[key] !== b[key]) {
+	// 				return false;
+	// 			}
+	// 			ensureRefsDistinct(obj[key], b[key]);
+	// 		}
+	// 	}
+	// }
+
+	// console.log(ensureRefsDistinct(objIn, objOut));
 };
 

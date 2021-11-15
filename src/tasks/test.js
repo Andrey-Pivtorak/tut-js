@@ -54,17 +54,17 @@ const objOut = deepCopy(objIn);
 console.log(JSON.stringify(objIn) === JSON.stringify(objOut));
 
 
-function ensureRefsDistinct(obj, b) {
-	for (const key in obj) {
-		if (obj[key] === null) {
+function ensureRefsDistinct(objIn, objOut) {
+	for (const key in objIn) {
+		if (objIn[key] === null) {
 			continue;
 		}
 
-		if (typeof obj[key] === 'object' && obj[key] !== null) {
-			if (obj[key] !== b[key]) {
+		if (typeof objIn[key] === 'object' && objIn[key] !== null) {
+			if (objIn[key] !== objOut[key]) {
 				return false;
 			}
-			ensureRefsDistinct(obj[key], b[key]);
+			ensureRefsDistinct(objIn[key], objOut[key]);
 		}
 	}
 }

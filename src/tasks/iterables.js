@@ -4,29 +4,29 @@
  * ф-ция должна создать объект, сделать его итерируемым(iterable) и вернуть
  */
 const createIterable = (from, to, step = 1) => {
-	const obj = {
-		from,
-		to,
-		step,
+	let current = from;
 
-		[Symbol.iterator] () {
+	return {
+		[Symbol.iterator]() {
 			return {
-				current: this.from - 1,
-				last: this.to,
-				step: this.step,
 				next() {
-					this.current += this.step;
+					const value = current;
+					current += step;
 
-					return {
-						done: this.current >= this.last,
-						value: this.current
-					};
+					return value > to
+						? {
+							done: true
+						} : {
+							done: false,
+							value
+						}
+
 				}
-			};
+			}
 		}
 	}
 
-	return obj;
+
 };
 
 for (let num of createIterable(1, 5)) {

@@ -26,25 +26,27 @@ const objectsTask = {
 		const newCopy = {};
 
 		for (let key in obj) {
-			if (typeof obj[key] !== 'object' && !Array.isArray(obj[key])) {
-				newCopy[key] = obj[key];
-			} else if (obj[key] === null) {
+			const value = obj[key];
+
+			if (typeof value !== 'object') {
+				newCopy[key] = value;
+			} else if (value === null) {
 				newCopy[key] = null;
-			} else if (Array.isArray(obj[key])) {
+			} else if (Array.isArray(value)) {
 				const copyArray = [];
 				newCopy[key] = copyArray;
 
-				for (let i = 0; i < obj[key].length; i++) {
-					const value = obj[key];
+				for (let i = 0; i < value.length; i++) {
+					const valueElement = obj[key];
 
-					if (typeof value[i] === 'object' && value[i] !== null) {
-						copyArray.push(deepCopy(value[i]));
+					if (typeof valueElement[i] === 'object' && valueElement[i] !== null) {
+						copyArray.push(deepCopy(valueElement[i]));
 					} else {
-						copyArray.push(value[i]);
+						copyArray.push(valueElement[i]);
 					}
 				}
-			} else if (typeof obj[key] === 'object') {
-				newCopy[key] = deepCopy(obj[key])
+			} else {
+				newCopy[key] = deepCopy(value)
 			}
 		}
 

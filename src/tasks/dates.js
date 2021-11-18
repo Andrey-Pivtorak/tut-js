@@ -1,22 +1,17 @@
 const datesTask = {
     //вывести на консоль текущую дату в формате DD.MM.YYYY hh:mm:ss
-    printCurrentDateAndTime() {
-		const date = new Date();
-		// уточнити, як правильно перенести
-		const dataArray = [date.getDate(), date.getMonth() + 1, date.getFullYear()];
-		const timeArray = [date.getHours(), date.getMinutes(), date.getSeconds()];
-
-		for (let i = 0; i < 3; i++) {
-			if (dataArray[i] < 10) {
-				dataArray[i] = `0${dataArray[i]}`;
-			}
-			if (timeArray[i] < 10) {
-				timeArray[i] = `0${timeArray[i]}`;
-			}
+	printCurrentDateAndTime() {
+		const format = (element) => {
+			return element < 10 ? `0${element}` : element;
 		}
 
-		// уточнити, чи можна красивіше написати
-		return dataArray.join('.') + ' ' + timeArray.join('.');
+		const date = new Date();
+		const dateArray = [date.getDate(), date.getMonth() + 1, date.getFullYear()]
+			.map(d => format(d));
+		const timeArray = [date.getHours(), date.getMinutes(), date.getSeconds()]
+			.map(t => format(t));
+
+		return dateArray.join('.') + ' ' + timeArray.join('.');
 	},
 
    //на вход ф-ция получается объект Date. Вывести на консоль сколько времени прошло от даты в прошлом до сейчас

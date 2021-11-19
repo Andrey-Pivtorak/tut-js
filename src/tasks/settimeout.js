@@ -1,11 +1,20 @@
-for (var i = 0; i < 5; i += 1) {
-	// console.log(i); - друкує 0, 1, 2, 3, 4
-	const id = setTimeout(function () {
-		///
-		console.log(i);
-		///
-	}, 0);
+// for (var i = 0; i < 5; i++) {
 
-	clearTimeout(id);
-	console.log(i);
+// 	function result(number) {
+// 		setTimeout(function () {
+// 			console.log(number);
+// 		}, 0);
+
+// 		return number;
+// 	}
+
+// 	result(i);
+// }
+
+
+for (let i = 0; i < 5; i++) {
+
+	setTimeout(function () {
+		console.log(i);
+	}, 0);
 }

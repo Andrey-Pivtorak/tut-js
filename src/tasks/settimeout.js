@@ -12,9 +12,10 @@
 // }
 
 
-for (let i = 0; i < 5; i++) {
+for (var i = 0; i < 5; i++) {
+	let number = i;
 
 	setTimeout(function () {
-		console.log(i);
+		console.log(number);
 	}, 0);
 }

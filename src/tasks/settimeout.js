@@ -4,8 +4,6 @@
 // 		setTimeout(function () {
 // 			console.log(number);
 // 		}, 0);
-
-// 		return number;
 // 	}
 
 // 	result(i);

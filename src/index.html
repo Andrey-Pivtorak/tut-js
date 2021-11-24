@@ -1,11 +1,35 @@
 <!DOCTYPE html>
 <html>
 	<head> </head>
+	<style>
+	li {
+		list-style: none;
+		margin: 10px 0px 0px 0px;
+	}
+	.users-list {
+		margin: 0px 0px 20px 0px;
+	}
+	.out__comments-list {
+		width: 500px;
+		height: 50px;
+		border: 1px solid #000;
+		margin: 100px 0px 0px 300px;
+		padding: 5px;
+		position: absolute;
+		overflow: auto;
+	}
+
+	</style>
 	<body>
+		<button class="users-list">Show users list</button>
+		<div class="out__comments-list"></div>
+		<div class="out__users-list"></div>
+
+
 		<script type="text/javascript" src="utils/u.js"></script>
 		<script type="text/javascript" src="tasks/basics.js"></script>
 		<script type="text/javascript" src="tasks/settimeout.js"></script>
-		<script type="text/javascript" src="tasks/test.js"></script>
+
 		<!-- <script type="text/javascript" src="tasks/test1.js"></script> -->
 		<script type="text/javascript" src="tasks/loops.js"></script>
 		<script type="text/javascript" src="tasks/arrays.js"></script>
@@ -14,13 +38,14 @@
 		<script type="text/javascript" src="tasks/dates.js"></script>
 		<script type="text/javascript" src="tasks/requests.js"></script>
 
-		<!-- <script type="text/javascript" src="index.js"></script> -->
+		<!-- <script type="text/javascript" src="index.js"></script>
 
 		<form method="GET" action="https://google.com">
 			<input type="text" name="q" />
-		</form>
-		<script>
-			// document.querySelector('form').addEventListener('submit', e => e.preventDefault());
-		</script>
+		</form> -->
+		<!-- <script>
+		document.querySelector('form').addEventListener('submit', e => e.preventDefault());
+		</script> -->
+		<script type="text/javascript" src="tasks/test.js"></script>
 	</body>
 </html>

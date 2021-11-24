@@ -14,26 +14,32 @@ const requests = {
 		try {
 			const xhr = new XMLHttpRequest();
 
-			const urlSend = new URL(url);
-			urlSend.searchParams.set(params, '');
-
-			xhr.open('GET', urlSend, options.async);
-
-			xhr.send();
-
 			xhr.onload = () => {
-				if (xhr.status >= 400) {
+				if (xhr.status >= 300) {
 					const error = `Error! Status code: ${xhr.status}`;
-					cb(error);
+					return cb(error);
 				}
 
 				const response = JSON.parse(xhr.responseText);
 				cb(null, response);
 			};
 
-			xhr.onerror = () => {
-				cb('Error!!!');
+			xhr.onerror = (error) => {
+				cb(error);
 			};
+
+			// const urlSend = new URL(url);
+			// for (let paramName in params) {
+			// 	urlSend.searchParams.set(
+			// 		encodeURIComponent(paramName),
+			// 		encodeURIComponent(params[paramName]),
+			// 	);
+			// }
+
+			const urlSend = `${url}?${objectToQuery(params)}`;
+
+			xhr.open('GET', urlSend, options.async);
+			xhr.send();
 		} catch (error) {
 			cb(error);
 		}
@@ -53,13 +59,22 @@ const requests = {
 	// 	timeout: 5000,
 	// };
 
-	// function requestData(dataObj) {
-	// 	let outStr = '';
-	// 	for (let key in dataObj) {
-	// 		outStr += `${key}=${dataArr[key]}&`;
-	// 	}
+	// function getParamsAsString(dataObj) {
 
-	// 	return outStr;
+	// first way ==========
+	// const result = []
+	// for (let key in dataObj) {
+	// 	result.push(`${encodeURIComponent(key)}=${encodeURIComponent(dataArr[key])}`);
+	// }
+
+	// return result.join('&');
+
+	// second way ==========
+	// 	return Object.entries(dataObj)
+	// 		.map(([name, value]) => {
+	// 			return `${encodeURIComponent(name)}=${encodeURIComponent(value)}`;
+	// 		})
+	// 		.join('&');
 	// }
 
 	// function checkStatus(err, res) {
@@ -71,7 +86,7 @@ const requests = {
 	// 	console.log(res);
 	// }
 
-	// httpGet(requestURL, requestData(data), valueOptions, checkStatus);
+	// httpGet(requestURL, data, valueOptions, checkStatus);
 
 	/**
 	 * смотреть описание httpGet
@@ -80,6 +95,20 @@ const requests = {
 	httpPost(url, params, options, cb) {
 		try {
 			const xhr = new XMLHttpRequest();
+
+			xhr.onload = () => {
+				if (xhr.status >= 300) {
+					const error = `Error! Status code: ${xhr.status}`;
+					return cb(error);
+				}
+
+				const response = JSON.parse(xhr.responseText);
+				cb(null, response);
+			};
+			xhr.onerror = (error) => {
+				cb(error);
+			};
+			xhr.timeout = options.timeout;
 
 			xhr.open('POST', url, options.async);
 
@@ -90,22 +119,6 @@ const requests = {
 			}
 
 			xhr.send(JSON.stringify(params));
-
-			xhr.onload = () => {
-				if (xhr.status >= 400) {
-					const error = `Error! Status code: ${xhr.status}`;
-					cb(error);
-				}
-
-				const response = JSON.parse(xhr.responseText);
-				cb(null, response);
-			};
-
-			xhr.onerror = () => {
-				cb('Error!!!');
-			};
-
-			xhr.timeout = options.timeout;
 		} catch (error) {
 			cb(error);
 		}
@@ -140,12 +153,11 @@ const requests = {
 	 * ф-ция на вход получает объект {key1: value1, key2: value2,.... } и возваращет строку в виде key1=value1&key2=value2....
 	 */
 	objectToQuery(obj) {
-		let outStr = '';
-		for (const key in obj) {
-			outStr += `${key}=${obj[key]}&`;
-		}
-
-		return outStr;
+		return Object.entries(dataObj)
+			.map(([name, value]) => {
+				return `${encodeURIComponent(name)}=${encodeURIComponent(value)}`;
+			})
+			.join('&');
 	},
 
 	// const data = {

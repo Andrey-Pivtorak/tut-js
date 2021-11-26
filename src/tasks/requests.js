@@ -36,9 +36,17 @@ const requests = {
 			// 	);
 			// }
 
-			const urlSend = `${url}?${objectToQuery(params)}`;
+			const userParams = objectToQuery(params);
+			const urlSend = `${url}?${userParams}`;
 
 			xhr.open('GET', urlSend, options.async);
+
+			if (options.headers) {
+				Object.entries(options.headers).forEach(([key, value]) => {
+					xhr.setRequestHeader(key, value);
+				});
+			}
+
 			xhr.send();
 		} catch (error) {
 			cb(error);
@@ -153,7 +161,7 @@ const requests = {
 	 * ф-ция на вход получает объект {key1: value1, key2: value2,.... } и возваращет строку в виде key1=value1&key2=value2....
 	 */
 	objectToQuery(obj) {
-		return Object.entries(dataObj)
+		return Object.entries(obj)
 			.map(([name, value]) => {
 				return `${encodeURIComponent(name)}=${encodeURIComponent(value)}`;
 			})

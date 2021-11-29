@@ -1,11 +1,8 @@
-// const requestURL = 'https://jsonplaceholder.typicode.com/users';
-
 window.addEventListener('DOMContentLoaded', () => {
 	main();
 });
 
 function main() {
-	// requests.httpGet(requestURL, dataGet, valueOptions, function (err, res)
 	request.createRequest(
 		requestURL,
 		dataGetMethod,
@@ -19,25 +16,43 @@ function main() {
 	);
 }
 
-function reply_click(event) {
-	const button = event.target;
-	const userId = button.dataset.id;
+function reply_server(usersArray, usersIdArray) {
+	
+	const users = usersArray;
+	const usersId = usersIdArray;
 
-	request.createRequest(
-		`https://jsonplaceholder.typicode.com/users/${userId}/posts`,
-		dataGetMethod,
-		valueOptions,
-		function (err, posts) {
-			document.querySelector('.out__comments-list').innerHTML = posts
-				.map(
-					(p, i) =>
-						`<p style="color: white; background: black;">${i + 1}. ${
-							p.title
-						}</p>`,
-				)
-				.join('');
-		},
-	);
+	if (users.length) {
+		const userName = document.createElement('div');
+		userName.className = 'figure';
+		userName.innerHTML = users[0];
+		document.body.append(userName);
+
+		let userPosts = document.createElement('div');
+		userPosts.className = 'figure2';
+
+		request.createRequest(
+			`https://jsonplaceholder.typicode.com/users/${usersId[0]}/posts`,
+			dataGetMethod,
+			valueOptions,
+			function (err, posts) {
+				userPosts.innerHTML = posts
+					.map(
+						(p, i) =>
+							`<p style="color: white; background: black;">${i + 1}. ${
+								p.title
+							}</p>`,
+					)
+					.join('');
+			},
+		);
+		document.body.append(userPosts);
+
+		next(users, usersId);
+	}
+}
+
+function next(usersArray, usersIdArray) {
+	reply_server(usersArray.splice(1), usersIdArray.splice(1));
 }
 
 function objectToQuery(obj) {
@@ -49,13 +64,16 @@ function objectToQuery(obj) {
 }
 
 function checkStatus(res) {
-	const list = document.querySelector('.out__users-list');
-	res.forEach((user, i) => {
-		list.innerHTML += `<li>${i + 1}.
-						 ${user.name} <button data-id=${
-			user.id
-		} onClick="reply_click(event)" class="comments">comments</button></li>`;
+
+	const users = [];
+	const usersId = [];
+
+	res.forEach((user) => {
+		users.push(user.name);
+		usersId.push(user.id);
 	});
+
+	reply_server(users, usersId);
 }
 
 const dataGetMethod = {

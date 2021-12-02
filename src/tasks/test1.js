@@ -1,47 +1,99 @@
-const requestURL = 'https://jsonplaceholder.typicode.com/users';
+window.addEventListener('DOMContentLoaded', () => {
+	main();
+});
 
-const request = {
-	createRequest(url, params, options, cb) {
-		try {
-			const xhr = new XMLHttpRequest();
+function main() {
+	// request.createRequest(
+	// 	requestURL,
+	// 	dataGetMethod,
+	// 	valueOptions,
+	// 	function (err, res) {
+	// 		if (err) {
+	// 			return console.error(err);
+	// 		}
+	// 		checkStatus(res);
+	// 	},
+	// );
 
-			xhr.onload = () => {
-				if (xhr.status >= 300) {
-					const error = `Error! Status code: ${xhr.status}`;
-					return cb(error);
-				}
+	request
+		.httpRequest(requestURL, dataGetMethod, valueOptions)
+		.then((data) => {reply_server(data);})
+		.catch((err) => {console.log(err.toString());});
+}
 
-				const response = JSON.parse(xhr.responseText);
-				cb(null, response);
-			};
+function reply_server(users) {
+	const user = users.shift();
 
-			xhr.onerror = (error) => {
-				cb(error);
-			};
+	if (!user) {
+		return;
+	}
 
-			if (options.timeout) {
-				xhr.timeout = options.timeout;
-			}
+	request.createRequest(
+		`https://jsonplaceholder.typicode.com/users/${user.id}/posts`,
+		dataGetMethod,
+		valueOptions,
+		function (err, posts) {
+			const userNameElem = createHtmlElement({
+				tag: 'div',
+				classNames: ['figure'],
+				attributes: {
+					style:
+						'width: 300px;	height: 20px;	border: 1px solid #000;background: red; color: white;	margin: 0px 0px 5px 0px;',
+				},
+				transferData: user.name,
+			});
+			document.body.append(userNameElem);
 
-			if (options.method === 'GET') {
-				const userParams = objectToQuery(params);
-				const urlSend = `${url}?${userParams}`;
-				xhr.open('GET', urlSend, options.async);
-			} else {
-				xhr.open('POST', url, options.async);
-			}
+			const userPosts = createHtmlElement({
+				tag: 'div',
+				classNames: ['figure2'],
+				attributes: {
+					style:
+						'width: 800px; height: 100px; border: 1px solid #000; background: green; color: white; margin: 0px 0px 20px 0px;	overflow: auto;',
+				},
+				transferData: ``,
+				children: {
+					tag: 'p',
+					classNames: [],
+					attributes: { style: 'color: white; background: black;' },
+					transferData: posts
+						.map((p, i) => `${i + 1}. ${p.title}<br>`)
+						.join(''),
+				},
+			});
+			document.body.append(userPosts);
+		},
+	);
 
-			if (options.headers) {
-				Object.entries(options.headers).forEach(([key, value]) => {
-					xhr.setRequestHeader(key, value);
-				});
-			}
+	next(users);
+}
 
-			xhr.send(JSON.stringify(params));
-		} catch (error) {
-			cb(error);
-		}
-	},
+function createHtmlElement(elemProperty) {
+	const elem = document.createElement(elemProperty.tag);
+	const classElem = elemProperty.classNames;
+	classElem.forEach((cls) => {
+		elem.classList.add(cls);
+	});
+	elem.innerHTML = elemProperty.transferData;
+	setAttributes(elem, elemProperty.attributes);
+
+	const childElemList = elemProperty.children;
+	if (childElemList && childElemList.tag !== '') {
+		const childElem = createHtmlElement(childElemList);
+		elem.appendChild(childElem);
+	}
+
+	return elem;
+}
+
+function setAttributes(element, attributes) {
+	for (let key in attributes) {
+		element.setAttribute(key, attributes[key]);
+	}
+}
+
+function next(usersArray) {
+	reply_server(usersArray);
 }
 
 function objectToQuery(obj) {
@@ -52,120 +104,18 @@ function objectToQuery(obj) {
 		.join('&');
 }
 
-function checkStatus(err, res) {
-	if (err) {
-		console.log(err);
-		return;
-	}
-
-	console.log(res);
+function checkStatus(res) {
+	reply_server(res);
 }
 
-const dataGet = {
+const dataGetMethod = {
 	login: 'programmer',
 	password: 12345,
 };
 
-const dataPost = {
-	name: 'Ivan',
-	age: 30,
-	isMarried: true,
-};
-
-const valueOptionsGet = {
+const valueOptions = {
 	method: 'GET',
 	async: true,
 	headers: { 'Content-Type': 'application/json' },
 	timeout: 5000,
 };
-
-const valueOptionsPost = {
-	method: 'POST',
-	async: true,
-	headers: { 'Content-Type': 'application/json' },
-	timeout: 5000,
-};
-
-
-// request.createRequest(requestURL, dataGet, valueOptionsGet, checkStatus);
-// request.createRequest(requestURL, dataPost, valueOptionsPost, checkStatus);
-console.log();
-
-
-// файл test.js
-// window.addEventListener('DOMContentLoaded', () => {
-// 	main();
-// });
-
-// function main() {
-// 	request.createRequest(
-// 		requestURL,
-// 		dataGetMethod,
-// 		valueOptions,
-// 		function (err, res) {
-// 			if (err) {
-// 				return console.error(err);
-// 			}
-// 			checkStatus(res);
-// 		},
-// 	);
-// }
-
-// // добавив
-// const usersArray = [{}, {}];
-
-// function reply_click(event) {
-// 	const button = event.target;
-// 	const userId = button.dataset.id;
-
-// 	request.createRequest(
-// 		`https://jsonplaceholder.typicode.com/users/${userId}/posts`,
-// 		dataGetMethod,
-// 		valueOptions,
-// 		function (err, posts) {
-// 			document.querySelector('.out__comments-list').innerHTML = posts
-// 				.map(
-// 					(p, i) =>
-// 						`<p style="color: white; background: black;">${i + 1}. ${
-// 							p.title
-// 						}</p>`,
-// 				)
-// 				.join('');
-
-// 			// добавив
-// 			if (users.length) {
-// 				next(users.shift());
-// 			}
-// 		},
-// 	);
-// }
-
-// function objectToQuery(obj) {
-// 	return Object.entries(obj)
-// 		.map(([name, value]) => {
-// 			return `${encodeURIComponent(name)}=${encodeURIComponent(value)}`;
-// 		})
-// 		.join('&');
-// }
-
-// function checkStatus(res) {
-// 	const list = document.querySelector('.out__users-list');
-// 	res.forEach((user, i) => {
-// 		list.innerHTML += `<li>${i + 1}.
-// 						 ${user.name} <button data-id=${
-// 			user.id
-// 		} onClick="reply_click(event)" class="comments">comments</button></li>`;
-// 	});
-// }
-
-// const dataGetMethod = {
-// 	login: 'programmer',
-// 	password: 12345,
-// };
-
-// const valueOptions = {
-// 	method: 'GET',
-// 	async: true,
-// 	headers: { 'Content-Type': 'application/json' },
-// 	timeout: 5000,
-// };

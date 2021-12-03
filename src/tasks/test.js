@@ -15,14 +15,23 @@ function main() {
 	// 	},
 	// );
 
-	request
-		.httpRequest(requestURL, dataGetMethod, valueOptions)
-		.then((data) => {
-			reply_server(data);
-		})
-		.catch((err) => {
-			console.log(err.toString());
-		});
+	// request
+	// 	.httpRequest(requestURL, dataGetMethod, valueOptions)
+	// 	.then((data) => {
+	// 		reply_server(data);
+	// 	})
+	// 	.catch((err) => {
+	// 		console.log(err.toString());
+	// 	});
+
+	(async () => {
+		const data = await request.httpRequest(
+			requestURL,
+			dataGet,
+			valueOptionsGet,
+		);
+		reply_server(data);
+	})();
 }
 
 function reply_server(users) {
@@ -100,3 +109,17 @@ const valueOptions = {
 	headers: { 'Content-Type': 'application/json' },
 	timeout: 5000,
 };
+
+// request
+// 	.httpRequest(requestURL, dataGet, valueOptionsGet)
+// 	.then((data) => {
+// 		functionsLibrary.checkStatus(null, data);
+// 	})
+// 	.catch((err) => {
+// 		console.log(err.toString());
+// 	});
+
+(async () => {
+	const data = await request.httpRequest(requestURL, dataGet, valueOptionsGet);
+	functionsLibrary.checkStatus(null, data);
+})();

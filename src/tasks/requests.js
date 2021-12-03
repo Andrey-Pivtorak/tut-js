@@ -272,14 +272,3 @@ const valueOptionsPost = {
 	headers: { 'Content-Type': 'application/json' },
 	timeout: 5000,
 };
-
-// request.createRequest(requestURL, dataGet, valueOptionsGet, functionsLibrary.checkStatus);
-// request.createRequest(requestURL, dataPost, valueOptionsPost, functionsLibrary.checkStatus);
-
-request.httpRequest(requestURL, dataGet, valueOptionsGet)
-	.then((data) => {
-		functionsLibrary.checkStatus(null, data);
-	})
-	.catch((err) => {
-		console.log(err.toString());
-	});

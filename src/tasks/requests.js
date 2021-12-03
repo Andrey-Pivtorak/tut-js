@@ -217,7 +217,7 @@ const request = {
 			}
 
 			if (options.method === 'GET') {
-				const userParams = objectToQuery(params);
+				const userParams = functionsLibrary.objectToQuery(params);
 				const urlSend = `${url}?${userParams}`;
 				xhr.open('GET', urlSend, options.async);
 			} else {
@@ -236,29 +236,17 @@ const request = {
 		}
 	},
 
-	httpRequest() {
+	httpRequest(url, params, options) {
 		return new Promise((resolve, reject) => {
-
+			request.createRequest(url, params, options, (err, response) => {
+				if (err) {
+					return reject(err);
+				}
+				resolve(response);
+			});
 		});
 	},
 };
-
-function objectToQuery(obj) {
-	return Object.entries(obj)
-		.map(([name, value]) => {
-			return `${encodeURIComponent(name)}=${encodeURIComponent(value)}`;
-		})
-		.join('&');
-}
-
-function checkStatus(err, res) {
-	if (err) {
-		console.log(err);
-		return;
-	}
-
-	console.log(res);
-}
 
 const dataGet = {
 	login: 'programmer',
@@ -285,6 +273,13 @@ const valueOptionsPost = {
 	timeout: 5000,
 };
 
-// request.createRequest(requestURL, dataGet, valueOptionsGet, checkStatus);
-// request.createRequest(requestURL, dataPost, valueOptionsPost, checkStatus);
-console.log();
+// request.createRequest(requestURL, dataGet, valueOptionsGet, functionsLibrary.checkStatus);
+// request.createRequest(requestURL, dataPost, valueOptionsPost, functionsLibrary.checkStatus);
+
+request.httpRequest(requestURL, dataGet, valueOptionsGet)
+	.then((data) => {
+		functionsLibrary.checkStatus(null, data);
+	})
+	.catch((err) => {
+		console.log(err.toString());
+	});

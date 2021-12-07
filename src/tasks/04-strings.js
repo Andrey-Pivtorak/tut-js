@@ -198,7 +198,7 @@ const stringTasks = {
 	 * isPalindrome('aabbaa') => true;
 	 */
 	isPalindrome: function (str) {
-		for (let i = 0, j = str.length; i < j; i++, j--) {
+		for (let i = 0, j = str.length - 1; i < j; i++, j--) {
 			if (str[i] !== str[j]) {
 				return false;
 			}

@@ -1,14 +1,17 @@
 class Point {
-    #x;
-    #y;
-    constructor(x, y) {
-    }
+	#x;
+	#y;
 
-    getX() {
+	constructor(x, y) {
+		this.#x = x;
+		this.#y = y;
+	}
 
-    }
+	getX() {
+		return this.x;
+	}
 
-    setX() {
-
-    }
+	setX(value) {
+		this.x = value;
+	}
 }

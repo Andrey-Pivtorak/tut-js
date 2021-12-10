@@ -7,11 +7,7 @@ class Point {
 		this.#y = y;
 	}
 
-	getX() {
-		return this.x;
-	}
+	getX() {}
 
-	setX(value) {
-		this.x = value;
-	}
+	setX() {}
 }

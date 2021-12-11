@@ -4,14 +4,22 @@
  * можно считать, что площадь отрезка равна 0 а периметр равен длине
  */
 class LineSegment extends Shape {
-	constructor(name, length) {
-		super(name, length);
-		this.name = name;
-		this.length = length;
+	constructor(...points) {
+		super(...points);
+		this.points = points;
 	}
 
 	getPerimeter() {
-		return this.length;
+		// const arrayPoints = super.getPoints();
+		const arrayPoints = this.points;
+		const x1 = arrayPoints[0].getX();
+		const x2 = arrayPoints[1].getX();
+		const y1 = arrayPoints[0].getY();
+		const y2 = arrayPoints[1].getY();
+
+		const sideLength = Math.sqrt((y2 - y1) ** 2 + (x2 - x1) ** 2);
+
+		return sideLength;
 	}
 
 	getSquare() {
@@ -19,9 +27,9 @@ class LineSegment extends Shape {
 	}
 
 	getName() {
-		return this.name;
+		return 'line';
 	}
 }
 
-const line = new LineSegment('line', 25);
-console.log(line.toString());
+// const line = new LineSegment(new Point(0, 0), new Point(0, 11));
+// console.log(line.toString());

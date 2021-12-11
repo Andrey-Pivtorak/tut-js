@@ -6,7 +6,7 @@
 const main = () => {
     const shapes = GeometryUtils.createRandomShapes(10);
     shapes.forEach((shape) => {
-        console.log(shape);
+			console.log(shape);
     });
 };
 

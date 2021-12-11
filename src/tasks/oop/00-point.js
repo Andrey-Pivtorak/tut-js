@@ -7,7 +7,19 @@ class Point {
 		this.#y = y;
 	}
 
-	getX() {}
+	getX() {
+		return this.#x;
+	}
 
-	setX() {}
+	setX() {
+		this.#x = x;
+	}
+
+	getY() {
+		return this.#y;
+	}
+
+	setY() {
+		this.#y = x;
+	}
 }

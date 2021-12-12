@@ -8,5 +8,19 @@
  */
 
 const asyncLoop = {
-    async guessNumber(n, maxAttempts) { },
+	async guessNumber(n, maxAttempts) {
+		let randomNumber = Math.floor(Math.ceil(Math.random()) * n);
+		console.log(randomNumber);
+		let i = maxAttempts;
+		while (i > 0) {
+			const inputNumber = await prompt('Put your number, please!');
+			if (+inputNumber === randomNumber) {
+				return alert('You guessed the number!');
+			}
+			i--;
+			alert(`False!!! You have ${i} attempts yet!`);
+		}
+	},
 };
+
+asyncLoop.guessNumber(3, 3);

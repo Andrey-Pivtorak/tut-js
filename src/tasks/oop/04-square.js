@@ -7,26 +7,25 @@ class Square extends Shape {
 		super(...points);
 	}
 
+	getWidth() {
+		const [p1, p2] = this.getPoints();
+		const x1 = p1.getX();
+		const x2 = p2.getX();
+		const y1 = p1.getY();
+		const y2 = p2.getY();
+
+		return Math.sqrt((y2 - y1) ** 2 + (x2 - x1) ** 2);
+	}
+
 	getPerimeter() {
-		const arrayPoints = super.getPoints();
-		const x1 = arrayPoints[0].getX();
-		const x2 = arrayPoints[1].getX();
-		const y1 = arrayPoints[0].getY();
-		const y2 = arrayPoints[1].getY();
-
-		const sideLength = Math.sqrt((y2 - y1) ** 2 + (x2 - x1) ** 2);
-
-		return sideLength * 4;
+		return this.getWidth() * 4;
 	}
 
 	getSquare() {
-		return (this.getPerimeter() / 4) ** 2;
+		return this.getWidth() ** 2;
 	}
 
 	getName() {
 		return 'square';
 	}
 }
-
-// const square = new Square(new Point(0, 0), new Point(0, 10));
-// console.log(square.toString());

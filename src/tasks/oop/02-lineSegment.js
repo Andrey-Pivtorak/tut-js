@@ -6,16 +6,14 @@
 class LineSegment extends Shape {
 	constructor(...points) {
 		super(...points);
-		this.points = points;
 	}
 
 	getPerimeter() {
-		// const arrayPoints = super.getPoints();
-		const arrayPoints = this.points;
-		const x1 = arrayPoints[0].getX();
-		const x2 = arrayPoints[1].getX();
-		const y1 = arrayPoints[0].getY();
-		const y2 = arrayPoints[1].getY();
+		const [p1, p2] = this.getPoints();
+		const x1 = p1.getX();
+		const x2 = p2.getX();
+		const y1 = p1.getY();
+		const y2 = p2.getY();
 
 		const sideLength = Math.sqrt((y2 - y1) ** 2 + (x2 - x1) ** 2);
 
@@ -30,6 +28,3 @@ class LineSegment extends Shape {
 		return 'line';
 	}
 }
-
-// const line = new LineSegment(new Point(0, 0), new Point(0, 11));
-// console.log(line.toString());

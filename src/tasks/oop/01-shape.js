@@ -18,15 +18,15 @@ class Shape {
 	}
 
 	getPerimeter() {
-		// throw new Error('Not implemented');
+		throw new Error('Not implemented');
 	}
 
 	getSquare() {
-		// throw new Error('Not implemented');
+		throw new Error('Not implemented');
 	}
 
 	getName() {
-		// throw new Error('Not implemented');
+		throw new Error('Not implemented');
 	}
 
 	toString() {

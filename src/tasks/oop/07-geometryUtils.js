@@ -36,18 +36,17 @@ const GeometryUtils = {
 	createRandomShapes(n) {
 		const value = 8;
 		const arrayShapes = [
-			this.createLine(value),
-			this.createTriangle(value),
-			this.createSquare(value),
-			this.createCircle(value),
+			() => this.createLine(value),
+			() => this.createTriangle(value),
+			() => this.createSquare(value),
+			() => this.createCircle(value),
 		];
 
 		const outArray = [];
 
 		for (let i = 0; i < n; i++) {
-			let shape = [Math.floor(Math.random() * arrayShapes.length)];
-			// console.log(arrayShapes[shape].toString());
-			outArray.push(arrayShapes[shape].toString());
+			const idx = Math.floor(Math.random() * arrayShapes.length);
+			outArray.push(arrayShapes[idx]());
 		}
 
 		return outArray;
